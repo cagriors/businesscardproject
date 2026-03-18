@@ -6,16 +6,114 @@
     <title>LSPD Kartvizit Oluşturucu</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; background-color: #f0f2f5; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 40px 20px; 
+            background-color: #0f172a;
+            color: #e2e8f0;
+            display: flex; 
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .app-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            max-width: 1300px;
+            width: 100%;
+            justify-content: center;
+            align-items: flex-start;
+        }
         
-        .editor { width: 400px; display: flex; flex-direction: column; gap: 15px; background: #ffffff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .editor h3 { margin-top: 0; text-align: center; color: #333; }
-        input, select { padding: 12px; font-size: 15px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
-        input:focus, select:focus { border-color: #007BFF; }
+        .editor { 
+            width: 100%;
+            max-width: 380px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            background: #1e293b;
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+            border: 1px solid #334155;
+        }
+
+        .editor h3 { 
+            margin: 0 0 10px 0; 
+            text-align: center; 
+            color: #f8fafc; 
+            font-size: 24px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select { 
+            padding: 14px; 
+            font-size: 15px; 
+            background-color: #0f172a;
+            color: #f8fafc;
+            border: 1px solid #334155; 
+            border-radius: 8px; 
+            outline: none; 
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus { 
+            border-color: #3b82f6; 
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        input::placeholder { color: #475569; }
         
-        .preview-section { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-top: 10px; }
-        button { cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 6px; padding: 12px 25px; font-size: 16px; font-weight: bold; transition: background 0.3s; width: 100%; max-width: 300px; }
-        button:hover { background-color: #218838; }
+        .preview-section { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 25px; 
+            align-items: center; 
+        }
+
+        button { 
+            cursor: pointer; 
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            padding: 16px 30px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            letter-spacing: 1px;
+            transition: all 0.3s ease; 
+            width: 100%; 
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        button:hover { 
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+
+        button:active { transform: translateY(0); }
+        button:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
 
         #business-card {
             width: 800px; 
@@ -26,7 +124,8 @@
             position: relative; 
             overflow: hidden; 
             background-color: #ffffff; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border-radius: 10px;
             transition: background-image 0.3s ease-in-out;
         }
 
@@ -62,49 +161,80 @@
         #preview-name { font-size: 30px; font-weight: normal; }
         #preview-title { font-size: 24px; font-weight: normal; margin-top: 2px; }
 
-        /* SAĞ ALT */
         #preview-contact {
             position: absolute;
             bottom: 60px; 
-            left: 550px; /* "www" harfinin başlangıç noktasına göre konum. */
-            width: 240px; /* Sağa doğru taşmaması için genişlik sınırı */
+            left: 550px; 
+            width: 240px; 
             display: flex;
             flex-direction: column;
             gap: 3px; 
-            text-align: left; /* Yazıları soldan hizala. */
+            text-align: left; 
         }
 
         #preview-cell, #preview-email { font-size: 22px; font-weight: normal; }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            #business-card {
+                transform: scale(0.45);
+                transform-origin: top center;
+                margin-bottom: -240px;
+            }
+            button { margin-top: 20px; }
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="editor">
-        <h3>Kartvizit Bilgileri</h3>
-        <select id="template-selector">
-            <option value="template-1">K9 Platoon</option>
-            <option value="template-2">C Platoon</option>
-            <option value="template-3">D Platoon</option>
-        </select>
-        <input type="text" id="input-name" placeholder="Adınız Soyadınız">
-        <input type="text" id="input-title" placeholder="Görevlendirme">
-        <input type="text" id="input-cell" placeholder="Telefon (Sadece numarayı yazın)">
-        <input type="text" id="input-email" placeholder="E-posta Adresi">
-    </div>
-
-    <div class="preview-section">
-        <div id="business-card" class="template-1">
-            <div id="preview-identity">
-                <div id="preview-name" class="smooth-text"></div>
-                <div id="preview-title" class="smooth-text"></div>
+    <div class="app-container">
+        <div class="editor">
+            <h3>KARTVİZİT ŞABLONLARI</h3>
+            
+            <div class="input-group">
+                <label>Şablon Seçimi</label>
+                <select id="template-selector">
+                    <option value="template-1">K9 Platoon</option>
+                    <option value="template-2">C Platoon</option>
+                    <option value="template-3">D Platoon</option>
+                </select>
             </div>
-            <div id="preview-contact">
-                <div id="preview-cell" class="smooth-text"></div>
-                <div id="preview-email" class="smooth-text"></div>
+
+            <div class="input-group">
+                <label>Personel Adı Soyadı</label>
+                <input type="text" id="input-name" placeholder="Örn: John Doe">
+            </div>
+
+            <div class="input-group">
+                <label>Görevlendirme (Unvan)</label>
+                <input type="text" id="input-title" placeholder="Örn: Element Member">
+            </div>
+
+            <div class="input-group">
+                <label>İletişim Numarası</label>
+                <input type="text" id="input-cell" placeholder="Örn: (123) 456-7890">
+            </div>
+
+            <div class="input-group">
+                <label>E-posta Adresi</label>
+                <input type="text" id="input-email" placeholder="Örn: serino@lspd.online">
             </div>
         </div>
-        <button onclick="downloadCard()" id="download-btn">Kartviziti İndir</button>
+
+        <div class="preview-section">
+            <div id="business-card" class="template-1">
+                <div id="preview-identity">
+                    <div id="preview-name" class="smooth-text"></div>
+                    <div id="preview-title" class="smooth-text"></div>
+                </div>
+                <div id="preview-contact">
+                    <div id="preview-cell" class="smooth-text"></div>
+                    <div id="preview-email" class="smooth-text"></div>
+                </div>
+            </div>
+            <button onclick="downloadCard()" id="download-btn">KARTVİZİTİ OLUŞTUR VE İNDİR</button>
+        </div>
     </div>
 
     <script>
@@ -140,7 +270,7 @@
 
         function downloadCard() {
             const originalText = downloadBtn.textContent;
-            downloadBtn.textContent = "İndiriliyor...";
+            downloadBtn.textContent = "SİSTEM İŞLİYOR...";
             downloadBtn.disabled = true;
 
             html2canvas(businessCard, { 
@@ -153,12 +283,12 @@
                     const imgData = canvas.toDataURL("image/png");
                     const link = document.createElement('a');
                     link.href = imgData;
-                    link.download = 'lspd_kartvizit.png';
+                    link.download = 'lspd_k9_kartvizit.png';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                 } catch (error) {
-                    alert("İndirme başarısız oldu. Resimlerin yüklendiğinden ve tarayıcınızın engellemediğinden emin olun.\nHata detayı: " + error.message);
+                    alert("İndirme başarısız oldu. Hata detayı: " + error.message);
                 } finally {
                     downloadBtn.textContent = originalText;
                     downloadBtn.disabled = false;
