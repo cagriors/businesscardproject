@@ -310,7 +310,10 @@
                 allowTaint: false,
                 backgroundColor: '#ffffff',
                 onclone: function (clonedDoc) {
-                    clonedDoc.getElementById('business-card').style.transform = 'none';
+                    const cardClone = clonedDoc.getElementById('business-card');
+                    cardClone.style.transform = 'none';
+                    cardClone.style.boxShadow = 'none'; 
+                    cardClone.style.borderRadius = '0'; 
                 }
             }).then(canvas => {
                 try {
