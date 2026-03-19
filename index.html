@@ -6,15 +6,15 @@
     <title>LSPD Kartvizit Oluşturucu</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* === FONT === */
+        /* === FONT TANIMLAMASI === */
         @font-face {
             font-family: 'Slimshoot';
-            src: url('Slimshoot.ttf') format('truetype'); 
+            src: url('slimshoot.ttf') format('truetype'); 
             font-weight: normal;
             font-style: normal;
         }
 
-        /* === GENEL ARAYÜZ === */
+        /* === GENEL ARAYÜZ  === */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
@@ -39,21 +39,20 @@
             flex: 1;
         }
 
-        /* === FOOTER  === */
         .custom-footer {
             margin-top: 40px;
             text-align: center;
-            color: #94a3b8;
+            color: #94a3b8; 
             font-size: 15px;
             letter-spacing: 0.3px;
             width: 100%;
         }
 
         .custom-footer .author {
-            color: #f8fafc;
-            font-weight: 800;
+            color: #f8fafc; 
+            font-weight: 800; 
         }
-        
+
         .editor { 
             width: 100%;
             max-width: 380px; 
@@ -101,7 +100,11 @@
             outline: none; 
             transition: all 0.3s ease;
             font-family: inherit;
+        }
+        
+        textarea {
             resize: vertical;
+            line-height: 1.6; 
         }
 
         input:focus, select:focus, textarea:focus { 
@@ -109,7 +112,7 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
-        input::placeholder { color: #475569; }
+        input::placeholder, textarea::placeholder { color: #475569; }
         
         .preview-section { 
             display: flex; 
@@ -130,7 +133,7 @@
             letter-spacing: 1px;
             transition: all 0.3s ease; 
             width: 100%; 
-            max-width: 800px; 
+            max-width: 500px;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
         }
 
@@ -143,17 +146,25 @@
         button:active { transform: translateY(0); }
         button:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
 
+        .card-wrapper {
+            width: 800px;
+            height: 464px; 
+            display: block;
+        }
+
         #business-card {
-            width: 800px; 
-            height: 472px;
+            width: 500px; 
+            height: 290px; 
+            transform: scale(1.6);
+            transform-origin: top left; 
             background-size: contain; 
             background-position: center;
             background-repeat: no-repeat;
             position: relative; 
             overflow: hidden; 
             background-color: #ffffff; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            border-radius: 6px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            border-radius: 4px; 
             transition: background-image 0.3s ease-in-out, background-color 0.3s ease;
         }
 
@@ -169,7 +180,7 @@
         .template-none::after {
             content: 'Lütfen önizleme için bir şablon seçiniz.';
             color: #94a3b8;
-            font-size: 20px;
+            font-size: 30px;
             letter-spacing: 1px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -181,13 +192,14 @@
         .template-3 { background-image: url('template3.png'); background-color: #f4f6f8; }
         .template-4 { background-image: url('template4.png'); background-color: #f4f6f8; }
         .template-5 { background-image: url('template5.png'); background-color: #f4f6f8; }
+        .template-6 { background-image: url('template6.png'); background-color: #f4f6f8; }
 
         .smooth-text {
             position: absolute;
-            font-family: 'Slimshoot', sans-serif;
-            color: #2d436b;
-            font-size: 35px; 
-            text-transform:none;
+            font-family: 'Slimshoot', sans-serif; 
+            color: #2d436b; 
+            font-size: 16px;
+            text-transform: none; 
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale;  
             text-shadow: 0 0 1px rgba(0,0,0,0.01); 
@@ -197,37 +209,37 @@
         }
 
         #preview-phone {
-            top: 25px;      
+            top: 15px;      
             right: 1px;    
-            width: 175px;   
-            text-align: left;
+            width: 110px;   
+            text-align: left; 
         }
 
         #preview-by {
-            bottom: 65px;   
-            left: 85px;    
-            width: 600px;
-            text-align: left;
-            white-space: pre-wrap !important;
-            line-height: 1.5;
+            bottom: 45px;   
+            left: 55px;    
+            width: 375px;   
+            text-align: left; 
+            white-space: pre-wrap !important; 
+            line-height: 1.5; 
         }
 
+        /* Mobil Cihazlar İçin Otomatik Oranlama */
         @media (max-width: 900px) {
-            #business-card {
-                transform: scale(0.45);
+            .card-wrapper {
+                transform: scale(0.7);
                 transform-origin: top center;
-                margin-bottom: -250px; 
+                margin-bottom: -90px;
             }
             button { margin-top: 20px; }
         }
-
     </style>
 </head>
 <body>
 
     <div class="app-container">
         <div class="editor">
-            <h3>LSPD KARTVİZİT PORTALI</h3>
+            <h3>LSPD DEPARTMAN PORTALI</h3>
             
             <div class="input-group">
                 <label>Şablon Seçimi</label>
@@ -253,15 +265,16 @@
         </div>
 
         <div class="preview-section">
-            <div id="business-card" class="template-none">
-                <div id="preview-phone" class="smooth-text"></div>
-                <div id="preview-by" class="smooth-text"></div>
+            <div class="card-wrapper">
+                <div id="business-card" class="template-none">
+                    <div id="preview-phone" class="smooth-text"></div>
+                    <div id="preview-by" class="smooth-text"></div>
+                </div>
             </div>
-            <button onclick="downloadCard()" id="download-btn">KARTI OLUŞTUR VE İNDİR</button>
+            <button onclick="downloadCard()" id="download-btn">KARTVİZİT OLUŞTUR</button>
         </div>
-    </div>
-    <div class="custom-footer">
-        by <span class="author">Muptazelle</span> (with 🤖 )
+    </div> <div class="custom-footer">
+        <span class="author">Muptazelle</span> (with 🤖)
     </div>
 
     <script>
@@ -292,16 +305,19 @@
             downloadBtn.disabled = true;
 
             html2canvas(businessCard, { 
-                scale: 3,           
+                scale: 1,     
                 useCORS: true,      
-                allowTaint: true,   
-                backgroundColor: '#ffffff'
+                allowTaint: false,
+                backgroundColor: '#ffffff',
+                onclone: function (clonedDoc) {
+                    clonedDoc.getElementById('business-card').style.transform = 'none';
+                }
             }).then(canvas => {
                 try {
                     const imgData = canvas.toDataURL("image/png");
                     const link = document.createElement('a');
                     link.href = imgData;
-                    link.download = 'lspd_kartvizit.png';
+                    link.download = 'lspd_gorev_karti.png';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
