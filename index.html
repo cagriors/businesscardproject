@@ -6,14 +6,24 @@
     <title>LSPD Kartvizit Oluşturucu</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+        /* === FONT === */
+        @font-face {
+            font-family: 'Slimshoot';
+            src: url('Slimshoot.ttf') format('truetype'); 
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* === GENEL ARAYÜZ === */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
-            padding: 40px 20px; 
+            padding: 40px 20px 20px 20px; 
             background-color: #0f172a; 
             color: #e2e8f0;
             display: flex; 
-            justify-content: center;
+            flex-direction: column; 
+            align-items: center; 
             min-height: 100vh;
             box-sizing: border-box;
         }
@@ -26,6 +36,22 @@
             width: 100%;
             justify-content: center;
             align-items: flex-start;
+            flex: 1;
+        }
+
+        /* === FOOTER  === */
+        .custom-footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+            width: 100%;
+        }
+
+        .custom-footer .author {
+            color: #f8fafc;
+            font-weight: 800;
         }
         
         .editor { 
@@ -65,7 +91,7 @@
             letter-spacing: 0.5px;
         }
 
-        input, select { 
+        input, select, textarea { 
             padding: 14px; 
             font-size: 15px; 
             background-color: #0f172a;
@@ -74,9 +100,11 @@
             border-radius: 8px; 
             outline: none; 
             transition: all 0.3s ease;
+            font-family: inherit;
+            resize: vertical;
         }
 
-        input:focus, select:focus { 
+        input:focus, select:focus, textarea:focus { 
             border-color: #3b82f6; 
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
@@ -114,9 +142,10 @@
 
         button:active { transform: translateY(0); }
         button:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
+
         #business-card {
             width: 800px; 
-            height: 440px; 
+            height: 472px;
             background-size: contain; 
             background-position: center;
             background-repeat: no-repeat;
@@ -124,82 +153,70 @@
             overflow: hidden; 
             background-color: #ffffff; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            border-radius: 10px; 
+            border-radius: 6px; 
             transition: background-image 0.3s ease-in-out, background-color 0.3s ease;
         }
 
         .template-none {
             background-color: #1e293b !important;
-            border: 2px dashed #475569;
+            border: 2px dashed #475569; 
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: none !important;
+            box-shadow: none !important; 
         }
 
         .template-none::after {
-            content: 'Lütfen önizleme için sol menüden bir şablon seçiniz.';
+            content: 'Lütfen önizleme için bir şablon seçiniz.';
             color: #94a3b8;
             font-size: 20px;
             letter-spacing: 1px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .template-none #preview-identity,
-        .template-none #preview-contact {
-            display: none;
-        }
 
-        /* Mevcut Şablonlar */
-        .template-1 { background-image: url('template1.png'); background-color: #e2e8f0; } 
-        .template-2 { background-image: url('template2.png'); background-color: #e2e8f0; }
-        .template-3 { background-image: url('template3.png'); background-color: #e2e8f0; }
+        .template-none .smooth-text { display: none; }
+
+        .template-1 { background-image: url('template1.png'); background-color: #f4f6f8; } 
+        .template-2 { background-image: url('template2.png'); background-color: #f4f6f8; }
+        .template-3 { background-image: url('template3.png'); background-color: #f4f6f8; }
+        .template-4 { background-image: url('template4.png'); background-color: #f4f6f8; }
+        .template-5 { background-image: url('template5.png'); background-color: #f4f6f8; }
 
         .smooth-text {
-            font-family: 'Times New Roman', Times, serif;
-            color: #1a1a1a; 
+            position: absolute;
+            font-family: 'Slimshoot', sans-serif;
+            color: #2d436b;
+            font-size: 35px; 
+            text-transform:none;
             -webkit-font-smoothing: antialiased; 
             -moz-osx-font-smoothing: grayscale;  
             text-shadow: 0 0 1px rgba(0,0,0,0.01); 
             white-space: nowrap; 
             overflow: hidden;
             text-overflow: ellipsis; 
-            line-height: 1.2;
         }
 
-        #preview-identity {
-            position: absolute;
-            top: 185px; 
-            left: 50%;
-            transform: translateX(-50%); 
-            width: 350px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        #preview-phone {
+            top: 25px;      
+            right: 1px;    
+            width: 175px;   
+            text-align: left;
         }
 
-        #preview-name { font-size: 30px; font-weight: normal; }
-        #preview-title { font-size: 24px; font-weight: normal; margin-top: 2px; }
-
-        #preview-contact {
-            position: absolute;
-            bottom: 60px; 
-            left: 550px; 
-            width: 240px; 
-            display: flex;
-            flex-direction: column;
-            gap: 3px; 
-            text-align: left; 
+        #preview-by {
+            bottom: 65px;   
+            left: 85px;    
+            width: 600px;
+            text-align: left;
+            white-space: pre-wrap !important;
+            line-height: 1.5;
         }
-
-        #preview-cell, #preview-email { font-size: 22px; font-weight: normal; }
 
         @media (max-width: 900px) {
             #business-card {
                 transform: scale(0.45);
                 transform-origin: top center;
-                margin-bottom: -240px; 
+                margin-bottom: -250px; 
             }
             button { margin-top: 20px; }
         }
@@ -210,89 +227,63 @@
 
     <div class="app-container">
         <div class="editor">
-            <h3>KARTVİZİT ŞABLONLARI</h3>
+            <h3>LSPD KARTVİZİT PORTALI</h3>
             
             <div class="input-group">
                 <label>Şablon Seçimi</label>
                 <select id="template-selector">
                     <option value="template-none" selected disabled>Lütfen Bir Şablon Seçiniz...</option>
-                    <option value="template-1">K9 Platoon</option>
-                    <option value="template-2">C Platoon</option>
-                    <option value="template-3">D Platoon</option>
+                    <option value="template-1">Patrol Division</option>
+                    <option value="template-2">Area Detective Division</option>
+                    <option value="template-3">Central Traffic Division</option>
+                    <option value="template-4">Metropolitan Division</option>
+                    <option value="template-5">Metropolitan Division v2</option>
                 </select>
             </div>
 
             <div class="input-group">
-                <label>Personel Adı Soyadı</label>
-                <input type="text" id="input-name" placeholder="Örn: John Doe">
+                <label>Telefon Numarası</label>
+                <input type="text" id="input-phone" placeholder="Örn: 555-0199">
             </div>
 
             <div class="input-group">
-                <label>Görevlendirme (Unvan)</label>
-                <input type="text" id="input-title" placeholder="Örn: Element Member">
-            </div>
-
-            <div class="input-group">
-                <label>İletişim Numarası</label>
-                <input type="text" id="input-cell" placeholder="Örn: (123) 456-7890">
-            </div>
-
-            <div class="input-group">
-                <label>E-posta Adresi</label>
-                <input type="text" id="input-email" placeholder="Örn: isim@lspdonline.org">
+                <label>Personel Adı</label>
+                <textarea id="input-by" rows="2" placeholder="Örn: J. Doe&#10;Alt satıra geçmek için Enter'a basın"></textarea>
             </div>
         </div>
 
         <div class="preview-section">
             <div id="business-card" class="template-none">
-                <div id="preview-identity">
-                    <div id="preview-name" class="smooth-text"></div>
-                    <div id="preview-title" class="smooth-text"></div>
-                </div>
-                <div id="preview-contact">
-                    <div id="preview-cell" class="smooth-text"></div>
-                    <div id="preview-email" class="smooth-text"></div>
-                </div>
+                <div id="preview-phone" class="smooth-text"></div>
+                <div id="preview-by" class="smooth-text"></div>
             </div>
-            <button onclick="downloadCard()" id="download-btn">KARTVİZİTİ OLUŞTUR VE İNDİR</button>
+            <button onclick="downloadCard()" id="download-btn">KARTI OLUŞTUR VE İNDİR</button>
         </div>
+    </div>
+    <div class="custom-footer">
+        Prepared with 🪩 by <span class="author">Muptazelle</span> (with 🤖 )
     </div>
 
     <script>
-        const inputName = document.getElementById('input-name');
-        const inputTitle = document.getElementById('input-title');
-        const inputCell = document.getElementById('input-cell');
-        const inputEmail = document.getElementById('input-email');
+        const inputPhone = document.getElementById('input-phone');
+        const inputBy = document.getElementById('input-by');
         const templateSelector = document.getElementById('template-selector');
         const businessCard = document.getElementById('business-card');
 
-        const previewName = document.getElementById('preview-name');
-        const previewTitle = document.getElementById('preview-title');
-        const previewCell = document.getElementById('preview-cell');
-        const previewEmail = document.getElementById('preview-email');
+        const previewPhone = document.getElementById('preview-phone');
+        const previewBy = document.getElementById('preview-by');
         const downloadBtn = document.getElementById('download-btn');
 
         templateSelector.addEventListener('change', (e) => {
             businessCard.className = e.target.value; 
         });
 
-        inputName.addEventListener('input', (e) => previewName.textContent = e.target.value);
-        inputTitle.addEventListener('input', (e) => previewTitle.textContent = e.target.value);
-        
-        inputCell.addEventListener('input', (e) => {
-            if(e.target.value.trim() !== '') {
-                previewCell.textContent = 'Cell: ' + e.target.value;
-            } else {
-                previewCell.textContent = '';
-            }
-        });
-        
-        inputEmail.addEventListener('input', (e) => previewEmail.textContent = e.target.value);
+        inputPhone.addEventListener('input', (e) => previewPhone.textContent = e.target.value);
+        inputBy.addEventListener('input', (e) => previewBy.textContent = e.target.value);
 
         function downloadCard() {
-            // Şablon seçilmemişse indirmeyi engelle
             if (businessCard.classList.contains('template-none')) {
-                alert("Lütfen indirme işleminden önce menüden bir kartvizit şablonu seçiniz.");
+                alert("Lütfen indirme işleminden önce menüden bir şablon seçiniz.");
                 return;
             }
 
@@ -310,7 +301,7 @@
                     const imgData = canvas.toDataURL("image/png");
                     const link = document.createElement('a');
                     link.href = imgData;
-                    link.download = 'lspd_kartvizit.png';
+                    link.download = 'lspd_gorev_karti.png';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
